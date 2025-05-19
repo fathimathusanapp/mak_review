@@ -6,8 +6,11 @@ class HelpRequest(models.Model):
         ("urgent_review", "Urgent Review"),
         ("doubt_session", "Doubt Session"),
         ("report_issue", "Report Issue"),
+<<<<<<< HEAD
         ("week_review", "week Review"),
 
+=======
+>>>>>>> 36805c630be16a09bd5871b13cb86fc6e233c681
     ]
 
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name='help_requests')
