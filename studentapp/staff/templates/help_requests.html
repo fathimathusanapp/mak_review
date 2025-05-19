@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pending Help Requests</title>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+
+  <main class="max-w-7xl mx-auto">
+    <h2 class="text-3xl font-semibold mb-8 text-gray-800">Pending Help Requests</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for request in help_requests %}
+        <div class="bg-white rounded-lg shadow p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <p class="text-sm font-medium text-gray-500">Student</p>
+              <p class="text-lg font-semibold text-gray-900">{{ request.student.username }}</p>
+            </div>
+
+            <div class="flex items-center justify-between mb-4">
+              <p class="text-sm font-medium text-gray-500">Type</p>
+              <p class="text-lg font-semibold text-gray-900">{{ request.get_request_type_display }}</p>
+            </div>
+
+            
+
+            <div class="flex items-center justify-between mb-4 text-sm text-gray-500">
+              <p>Created At:</p>
+              <p>{{ request.created_at|date:"M d, Y H:i" }}</p>
+            </div>
+
+            {% if request.accepted_by %}
+              <div class="flex items-center justify-between text-sm text-green-700 font-semibold">
+                <p>Accepted By:</p>
+                <p>{{ request.accepted_by.username }}</p>
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="mt-4">
+            {% if request.accepted_by %}
+              <a href="{% url 'mark_request_handled' request.id %}" 
+                 class="inline-block bg-green-100 text-green-700 px-4 py-2 rounded hover:bg-green-200 transition">
+                ✅ Mark as Handled
+              </a>
+            {% else %}
+              <a href="{% url 'accept_help_request' request.id %}" 
+                 class="inline-block bg-yellow-100 text-yellow-700 px-4 py-2 rounded hover:bg-yellow-200 transition">
+                ✋ Accept Request
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% empty %}
+        <p class="text-gray-500 text-center col-span-full">No pending help requests.</p>
+      {% endfor %}
+    </div>
+  </main>
+
+</body>
+</html>
